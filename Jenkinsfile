@@ -5,7 +5,6 @@ pipeline {
     }
 
     parameters {
-         string(name: 'tomcat_dev', defaultValue: '10.10.1.99', description: 'Staging Server')
          string(name: 'tomcat_prod', defaultValue: '10.10.1.11', description: 'Production Server')
     }
 
@@ -27,19 +26,11 @@ stages{
         }
 
         stage ('Deployments'){
-            parallel{
-                stage ('Deploy to Staging'){
-                    steps {
-                        sh "scp -i /home/vuong/.ssh/id_rsa -v -o StrictHostKeyChecking=no **/target/*.war root@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
-                    }
-                }
-
                 stage ("Deploy to Production"){
                     steps {
                         sh "scp -i /home/vuong/.ssh/id_rsa -v -o StrictHostKeyChecking=no **/target/*.war root@${params.tomcat_prod}:/var/lib/tomcat7/webapps"
                     }
                 }
-            }
         }
     }
 }

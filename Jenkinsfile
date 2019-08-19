@@ -27,6 +27,7 @@ stages{
 
                 stage ("Deploy to Production"){
                     steps {
+                        sh "ssh -i /home/vuong/.ssh/id_rsa && cd /var/lib/apache-tomcat-8.5.38-production/bin && sh start.sh"
                         sh "scp -i /home/vuong/.ssh/id_rsa -v -o StrictHostKeyChecking=no **/target/*.war root@${params.tomcat_prod}:/var/lib/apache-tomcat-8.5.38-production/webapps"
                     }
               
